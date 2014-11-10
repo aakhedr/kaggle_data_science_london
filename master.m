@@ -1,6 +1,5 @@
 %% read data into MATLAB
-[data, test, labels] = read_data('train.csv', 'test.csv', ...
-    'trainLabels.csv');
+[data, test, labels] = read_data();
 
 %% segregate train and validation data
 [Xtrain, Xval, yTrain, yVal] = segregate_data(data, labels);

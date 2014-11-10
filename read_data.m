@@ -1,5 +1,5 @@
-function [data, test, y] = read_data(trainFile, testFile, labelsFile)
-    data = csvread(trainFile);
-    test = csvread(testFile);
-    y = csvread(labelsFile);
+function [data, test, labels] = read_data()
+    data = csvread('train.csv');
+    test = csvread('test.csv');
+    labels = csvread('trainLabels.csv');
 end
