@@ -1,7 +1,7 @@
-function [Ein, Eout] = learning_curve(Xtrain, Xval, yTrain, yVal)
+function [Ein, Eval] = learning_curve(Xtrain, Xval, yTrain, yVal)
     [m, ~] = size(Xtrain);
     Ein = zeros(m, 1);
-    Eout = zeros(m, 1);
+    Eval = zeros(m, 1);
     
     % loop thru all examples
     for i = 4 : m    % y must contain exactly 2 groups for SMO to run
@@ -9,20 +9,21 @@ function [Ein, Eout] = learning_curve(Xtrain, Xval, yTrain, yVal)
         
         % train svm classifier with rbf kernel and sigma=4
         svm_struct = svmtrain(X, y, 'kernel_function', 'rbf', ...
-            'rbf_sigma', 4);
+            'rbf_sigma', 3);
         
-        % calculate Ein for each set of examples
+        % calculate Ein for each set of training examples
         y_train_est = svmclassify(svm_struct, X);
         Ein(i) = length(y_train_est(y_train_est~=y))/ length(y);
         
-        % calculate Eout for each set of examples in the validation set
+        % calculate Eout by each svm_struct
         y_val_est = svmclassify(svm_struct, Xval);
-        Eout(i) = length(y_val_est(y_val_est~=yVal))/ length(yVal);
+        Eval(i) = length(y_val_est(y_val_est~=yVal))/ length(yVal);
     end
     plot(1:m, Ein, 'b-');   hold on;
-    plot(1:m, Eout, 'r-'); 
+    plot(1:m, Eval, 'r-'); 
     
-    legend('Ein', 'Eout');
+    legend('Ein', 'Eval');
+    title('Learning Curve with rbf sigma = 3');
     xlabel('Number of examples');
     ylabel('Error');        hold off;
 end

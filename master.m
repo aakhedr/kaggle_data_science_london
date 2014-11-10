@@ -4,17 +4,20 @@
 %% segregate train and validation data
 [Xtrain, Xval, yTrain, yVal] = segregate_data(data, labels);
 
-%% train svm with rbf kernel 
-svm_struct = svmtrain(Xtrain, yTrain, 'kernel_function', 'rbf', ...
-    'rbf_sigma', 4);
+%% generate validation curve
+errors = validation_curve(Xtrain, Xval, yTrain, yVal);
 
-%% classify train and validation set
-y_est_train = svmclassify(svm_struct, Xtrain);
-y_est_val = svmclassify(svm_struct, Xval);
+%% generate learning curve
+% [Ein, Eval] = learning_curve(Xtrain, Xval, yTrain, yVal);
 
-%% calculate prediction accuracy on train and validation set
-Ein = length(y_est_train(y_est_train~=yTrain))/ length(yTrain);
-Eout = length(y_est_val(y_est_val~=yVal))/ length(yVal);
+%% fit the test set using svm_struct
+svm_struct = svmtrain(data, labels, 'kernel_function', 'rbf', ...
+    'rbf_sigma', 3.5);
+yTest = svmclassify(svm_struct, test);
 
-fprintf('Ein: %f\n', Ein);
-fprintf('Eout: %f\n', Eout);
+%% submit
+Id = (1:9000)';
+submission = [Id yTest];
+csvwrite('submission.csv', submission);
+
+%%
