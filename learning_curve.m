@@ -9,7 +9,7 @@ function [Ein, Eval] = learning_curve(Xtrain, Xval, yTrain, yVal)
         
         % train svm classifier with rbf kernel and sigma=3.5
         svm_struct = svmtrain(X, y, 'kernel_function', 'rbf', ...
-            'rbf_sigma', 3.5);
+            'rbf_sigma', 8, 'boxconstraint', 10);
         
         % calculate Ein for each set of training examples
         y_train_est = svmclassify(svm_struct, X);
