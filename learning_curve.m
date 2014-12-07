@@ -7,9 +7,9 @@ function [Ein, Eval] = learning_curve(Xtrain, Xval, yTrain, yVal)
     for i = 4 : m    % y must contain exactly 2 groups for SMO to run
         X = Xtrain(1:i, :); y = yTrain(1:i, :);
         
-        % train svm classifier with rbf kernel and sigma=3.5
+        % train svm classifier with rbf kernel and sigma=5
         svm_struct = svmtrain(X, y, 'kernel_function', 'rbf', ...
-            'rbf_sigma', 8, 'boxconstraint', 10);
+            'rbf_sigma', 5);
         
         % calculate Ein for each set of training examples
         y_train_est = svmclassify(svm_struct, X);
@@ -23,7 +23,7 @@ function [Ein, Eval] = learning_curve(Xtrain, Xval, yTrain, yVal)
     plot(1:m, Eval, 'r-'); 
     
     legend('Ein', 'Eval');
-    title('Learning Curve with rbf sigma=3.5');
+    title('Learning Curve with rbf sigma=5');
     xlabel('Number of examples');
     ylabel('Error');        hold off;
 end
