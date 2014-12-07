@@ -6,7 +6,7 @@ function [errors] = validation_curve(Xtrain, Xval, yTrain, yVal)
     fprintf('\tsigma\t\tEin\t\tEval\n');
     for i = 1 : m
         svm_struct = svmtrain(Xtrain, yTrain, 'kernel_function', 'rbf', ...
-            'rbf_sigma', sigma_vec(i), 'boxconstraint', 10);
+            'rbf_sigma', sigma_vec(i));
         
         y_train_est = svmclassify(svm_struct, Xtrain);
         Ein(i) = length(y_train_est(y_train_est~=yTrain)) / length(yTrain);

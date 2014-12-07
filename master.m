@@ -12,12 +12,12 @@ errors = validation_curve(Xtrain, Xval, yTrain, yVal);
 
 %% fit the test set using svm_struct
 svm_struct = svmtrain(data, labels, 'kernel_function', 'rbf', ...
-    'rbf_sigma', 8, 'boxconstraint', 10);
+    'rbf_sigma', 4);
 yTest = svmclassify(svm_struct, test);
 
 %% submit
 Id = (1:9000)';
 submission = [Id yTest];
-csvwrite('submission5.csv', submission);
+csvwrite('submission6.csv', submission);
 
 %%
