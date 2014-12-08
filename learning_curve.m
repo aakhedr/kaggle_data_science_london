@@ -3,9 +3,12 @@ function [Ein, Eval] = learning_curve(Xtrain, Xval, yTrain, yVal)
     Ein = zeros(m, 1);
     Eval = zeros(m, 1);
     
+    [Xtrain_norm, ~, ~] = featureNormalize(Xtrain);
+    [Xval_norm, ~, ~] = featureNormalize(Xval);
+
     % loop thru all examples
     for i = 4 : m    % y must contain exactly 2 groups for SMO to run
-        X = Xtrain(1:i, :); y = yTrain(1:i, :);
+        X = Xtrain_norm(1:i, :);        y = yTrain(1:i, :);
         
         % train svm classifier with rbf kernel and sigma=5.5 boxconstraint=9
         svm_struct = svmtrain(X, y, 'kernel_function', 'rbf', ...
@@ -16,7 +19,7 @@ function [Ein, Eval] = learning_curve(Xtrain, Xval, yTrain, yVal)
         Ein(i) = length(y_train_est(y_train_est~=y))/ length(y);
         
         % calculate Eout by each svm_struct
-        y_val_est = svmclassify(svm_struct, Xval);
+        y_val_est = svmclassify(svm_struct, Xval_norm);
         Eval(i) = length(y_val_est(y_val_est~=yVal))/ length(yVal);
     end
     plot(1:m, Ein, 'b-');   hold on;

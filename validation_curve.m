@@ -3,6 +3,9 @@ function [errors] = validation_curve(Xtrain, Xval, yTrain, yVal)
     C_vector = [1 2 3 4 5 6 7 8 9 10 11 12 13];
     m = length(sigma_vec);
     n =length(C_vector);
+    
+    [Xtrain_norm, ~, ~] = featureNormalize(Xtrain);
+    [Xval_norm, ~, ~] = featureNormalize(Xval);
 
     Ein = zeros(m, 1); Eval = zeros(m, 1);
     
@@ -11,13 +14,13 @@ function [errors] = validation_curve(Xtrain, Xval, yTrain, yVal)
         fprintf('\tC\t\tEin\t\tEval\n');
 
         for j = 1 : n
-            svm_struct = svmtrain(Xtrain, yTrain, 'kernel_function', 'rbf', ...
-                'rbf_sigma', sigma_vec(i), 'boxconstraint', C_vector(j));
+            svm_struct = svmtrain(Xtrain_norm, yTrain, 'kernel_function', ...
+                'rbf', 'rbf_sigma', sigma_vec(i), 'boxconstraint', C_vector(j));
         
-            y_train_est = svmclassify(svm_struct, Xtrain);
+            y_train_est = svmclassify(svm_struct, Xtrain_norm);
             Ein(i) = length(y_train_est(y_train_est~=yTrain)) / length(yTrain);
         
-            y_val_est = svmclassify(svm_struct, Xval);
+            y_val_est = svmclassify(svm_struct, Xval_norm);
             Eval(i) = length(y_val_est(y_val_est~=yVal))/ length(yVal);
             
             fprintf('\t%f\t%f\t%f\n', C_vector(j), Ein(i), Eval(i));
