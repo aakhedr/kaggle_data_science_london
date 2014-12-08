@@ -11,6 +11,7 @@
 %% run pca
 [Utrain, Strain, ~] = pca(Xtrain_norm);
 [Uval, Sval, ~] = pca(Xval_norm);
+
 K = 12;
 Ztrain = projectData(Xtrain_norm, Utrain, K);
 Zval = projectData(Xval_norm, Uval, K);
