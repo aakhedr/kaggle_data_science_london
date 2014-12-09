@@ -8,7 +8,7 @@
 errors = validation_curve(Xtrain, Xval, yTrain, yVal);
 
 %% generate learning curve
-[Ein, Eval] = learning_curve(Xtrain, Xval, yTrain, yVal);
+% [Ein, Eval] = learning_curve(Xtrain, Xval, yTrain, yVal);
 
 %% fit the test set using svm_struct
 % svm_struct = svmtrain(data, labels, 'kernel_function', 'rbf', ...

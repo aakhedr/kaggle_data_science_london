@@ -1,6 +1,6 @@
 function [errors] = validation_curve(Xtrain, Xval, yTrain, yVal)
-    sigma_vec = [3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9];
-    C_vector = [1 2 3 4 5 6 7 8 9 10 11 12 13];
+    sigma_vec = [3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9 10];
+    C_vector = [1 2 3 4 5 6 7 8 9 10 11 12 13 14];
     m = length(sigma_vec);
     n =length(C_vector);
     
